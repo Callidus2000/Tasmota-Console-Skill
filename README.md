@@ -13,11 +13,11 @@ HTTP überträgt Inhalte und gegebenenfalls Basic-Auth-Zugangsdaten unverschlüs
 Unter Linux `python3`, unter Windows beispielsweise `python` verwenden. Im Repository-Ordner:
 
 ```bash
-python3 scripts/tasmota_console.py diagnose
-python3 scripts/tasmota_console.py --host 192.0.2.10 command 'Status 2'
-python3 scripts/tasmota_console.py --host 192.0.2.10 command 'Rule1'
-python3 scripts/tasmota_console.py --host 192.0.2.10 logs --seconds 10
-python3 scripts/tasmota_console.py --host 192.0.2.10 rules-snapshot --output /private/device-rules.json
+python3 skills/tasmota-console/scripts/tasmota_console.py diagnose
+python3 skills/tasmota-console/scripts/tasmota_console.py --host 192.0.2.10 command 'Status 2'
+python3 skills/tasmota-console/scripts/tasmota_console.py --host 192.0.2.10 command 'Rule1'
+python3 skills/tasmota-console/scripts/tasmota_console.py --host 192.0.2.10 logs --seconds 10
+python3 skills/tasmota-console/scripts/tasmota_console.py --host 192.0.2.10 rules-snapshot --output /private/device-rules.json
 ```
 
 `192.0.2.10` ist ein Dokumentationsplatzhalter. Den Snapshot in einem bestehenden privaten Ordner **außerhalb** des Repositorys anlegen; eine vorhandene Datei wird nicht überschrieben. Unter Windows gelten die geerbten Dateiberechtigungen; diese selbst prüfen. Die Sicherung enthält nur die drei Rule-Antworten, keine vollständige Gerätekonfiguration.
@@ -28,7 +28,16 @@ Optional kann das Web-Passwort über `--password-env NAME` oder `--password-file
 
 ## Installation als Skill
 
-Dieses Repository als Verzeichnis `tasmota-console` unter einem unterstützten Skill-Suchpfad ablegen, zum Beispiel `~/.agents/skills/tasmota-console`. `SKILL.md`, `scripts/` und `references/` müssen zusammenbleiben. In OpenCode kann der Skill mit `@tasmota-console` aufgerufen werden. Suchpfade und Berechtigungen: [OpenCode Skills](https://opencode.ai/docs/skills).
+Den Ordner `skills/tasmota-console/` unter einem unterstützten Skill-Suchpfad ablegen, zum Beispiel `~/.agents/skills/tasmota-console`. `SKILL.md`, `scripts/` und `references/` müssen zusammenbleiben. In OpenCode kann der Skill mit `@tasmota-console` aufgerufen werden. Suchpfade und Berechtigungen: [OpenCode Skills](https://opencode.ai/docs/skills).
+
+### OpenChamber: Git-Katalog hinzufügen
+
+OpenChambers Git-Katalogscanner sucht in Unterordnern mit einer `SKILL.md`. Deshalb liegt das Paket unter `skills/tasmota-console/` und nicht nur als `SKILL.md` im Repository-Stamm. Im Dialog **Add skills catalog**:
+
+- Repository: `https://github.com/Callidus2000/Tasmota-Console-Skill`
+- Optional subpath: `skills`
+
+Danach **Scan** ausführen. Erwartet wird ein Fund für `tasmota-console`. `catalog/` ist hierfür nicht der richtige Subpfad: Dieser Ordner enthält nur den HTTP-Katalogindex.
 
 ### OpenCode V2: GitHub-Pages-Katalog
 
@@ -55,4 +64,4 @@ python3 -m unittest discover -s tests -v
 python3 scripts/build_catalog.py --output /pfad/zu/neuem-katalog
 ```
 
-Der Katalog-Builder erstellt nur ein neues, noch nicht existierendes Zielverzeichnis und kopiert die in `catalog/index.json` aufgeführten Dateien. Keine Netzwerkanfragen an Tasmota-Geräte sind für die Tests nötig.
+Der Katalog-Builder erstellt nur ein neues, noch nicht existierendes Zielverzeichnis und kopiert die in `catalog/index.json` aufgeführten Dateien aus `skills/<name>/`. Keine Netzwerkanfragen an Tasmota-Geräte sind für die Tests nötig.

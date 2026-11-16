@@ -12,7 +12,7 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("console", ROOT / "scripts" / "tasmota_console.py")
+spec = importlib.util.spec_from_file_location("console", ROOT / "skills" / "tasmota-console" / "scripts" / "tasmota_console.py")
 console = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(console)
 spec = importlib.util.spec_from_file_location("catalog", ROOT / "scripts" / "build_catalog.py")
@@ -204,7 +204,7 @@ class TestLocal(unittest.TestCase):
             entry = index["skills"][0]
             self.assertEqual(entry["name"], "tasmota-console")
             for name in entry["files"]:
-                self.assertEqual((output / entry["name"] / name).read_bytes(), (ROOT / name).read_bytes())
+                self.assertEqual((output / entry["name"] / name).read_bytes(), (ROOT / "skills" / entry["name"] / name).read_bytes())
             with self.assertRaises(FileExistsError):
                 catalog.build(output)
 

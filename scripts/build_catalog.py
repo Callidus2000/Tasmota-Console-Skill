@@ -27,8 +27,9 @@ def build(output):
             if (not item or path.is_absolute() or ".." in path.parts or "\\" in item
                     or any(part.startswith(".") for part in path.parts)):
                 raise ValueError("Unsafe catalog path")
-            source = (root / Path(*path.parts)).resolve()
-            if not source.is_relative_to(root) or not source.is_file():
+            source = (root / "skills" / name / Path(*path.parts)).resolve()
+            package_root = (root / "skills" / name).resolve()
+            if not source.is_relative_to(package_root) or not source.is_file():
                 raise ValueError("Catalog source missing or outside repository")
             copies.append((source, Path(name, *path.parts)))
     output = Path(output)
