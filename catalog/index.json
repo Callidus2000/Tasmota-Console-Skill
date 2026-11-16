@@ -1,0 +1,14 @@
+{
+  "skills": [
+    {
+      "name": "tasmota-console",
+      "version": "0.1.0",
+      "files": [
+        "SKILL.md",
+        "scripts/tasmota_console.py",
+        "references/rules.md",
+        "references/safety.md"
+      ]
+    }
+  ]
+}
